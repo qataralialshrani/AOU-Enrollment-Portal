@@ -1,0 +1,2296 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>نظام القبول الإلكتروني - الجامعة العربية المفتوحة 2025</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* ===== CSS Variables & Base Styles ===== */
+        :root {
+            --royal-blue: #4169E1;
+            --royal-blue-dark: #2A4FB5;
+            --royal-blue-light: #6C8CE6;
+            --royal-gold: #FFC107;
+            --success-color: #28a745;
+            --error-color: #dc3545;
+            --warning-color: #ffc107;
+            --light-gray: #F5F7FA;
+            --medium-gray: #E8ECF1;
+            --dark-gray: #2C3E50;
+            --white: #FFFFFF;
+            --shadow: rgba(65, 105, 225, 0.1);
+            --font-primary: 'Tajawal', 'Segoe UI', sans-serif;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: var(--font-primary);
+        }
+        
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #e9ecef 100%);
+            min-height: 100vh;
+            color: var(--dark-gray);
+            display: flex;
+            flex-direction: column;
+            font-family: var(--font-primary);
+        }
+        
+        .main-container {
+            flex: 1;
+            max-width: 1200px;
+            width: 100%;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        /* ===== Header Styles ===== */
+        .header {
+            background: linear-gradient(135deg, var(--royal-blue) 0%, var(--royal-blue-dark) 100%);
+            border-radius: 20px 20px 0 0;
+            box-shadow: 0 5px 20px var(--shadow);
+            padding: 30px;
+            text-align: center;
+            border-bottom: 5px solid var(--royal-gold);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -10%;
+            width: 200px;
+            height: 200px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 50%;
+        }
+        
+        .header::after {
+            content: '';
+            position: absolute;
+            bottom: -30%;
+            left: 5%;
+            width: 150px;
+            height: 150px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 50%;
+        }
+        
+        .header h1 {
+            color: var(--white);
+            font-size: 28px;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .header p {
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 15px;
+            font-size: 16px;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .header .academic-year {
+            background: var(--royal-gold);
+            color: var(--royal-blue-dark);
+            display: inline-block;
+            padding: 8px 20px;
+            border-radius: 25px;
+            font-weight: bold;
+            margin-top: 10px;
+            font-size: 15px;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .logo-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 15px;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .university-logo {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(45deg, var(--white) 0%, #E8F4FF 100%);
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            padding: 10px;
+        }
+        
+        .university-logo svg {
+            width: 100%;
+            height: 100%;
+        }
+        
+        .content-container {
+            background: var(--white);
+            border-radius: 0 0 20px 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            min-height: 600px;
+        }
+        
+        /* ===== Stepper Styles ===== */
+        .stepper-container {
+            margin: 30px 0 40px 0;
+            position: relative;
+        }
+        
+        .stepper {
+            display: flex;
+            justify-content: space-between;
+            position: relative;
+            counter-reset: step;
+        }
+        
+        .stepper::before {
+            content: '';
+            position: absolute;
+            top: 25px;
+            left: 12.5%;
+            right: 12.5%;
+            height: 3px;
+            background: var(--medium-gray);
+            z-index: 1;
+        }
+        
+        .step {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            z-index: 2;
+            flex: 1;
+        }
+        
+        .step-circle {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: var(--white);
+            border: 3px solid var(--medium-gray);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 18px;
+            color: var(--dark-gray);
+            transition: all 0.3s ease;
+            counter-increment: step;
+        }
+        
+        .step.active .step-circle {
+            background: var(--royal-blue);
+            border-color: var(--royal-blue);
+            color: var(--white);
+            transform: scale(1.1);
+        }
+        
+        .step.completed .step-circle {
+            background: var(--success-color);
+            border-color: var(--success-color);
+            color: var(--white);
+        }
+        
+        .step-label {
+            margin-top: 10px;
+            font-weight: 600;
+            color: var(--dark-gray);
+            text-align: center;
+            font-size: 14px;
+        }
+        
+        .step.active .step-label {
+            color: var(--royal-blue);
+        }
+        
+        /* ===== Content Area ===== */
+        .content {
+            position: relative;
+            min-height: 500px;
+        }
+        
+        .step-content {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        .step-content.active {
+            display: block;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .form-section {
+            background: var(--light-gray);
+            padding: 25px;
+            border-radius: 15px;
+            margin-bottom: 25px;
+            border: 1px solid var(--medium-gray);
+        }
+        
+        .section-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 20px;
+            color: var(--royal-blue);
+            font-size: 20px;
+            font-weight: 600;
+            border-bottom: 2px solid var(--royal-gold);
+            padding-bottom: 10px;
+        }
+        
+        .section-title i {
+            font-size: 24px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--royal-blue-dark);
+        }
+        
+        label.required::after {
+            content: ' *';
+            color: var(--error-color);
+        }
+        
+        input, select, textarea {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid var(--medium-gray);
+            border-radius: 8px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            background: var(--white);
+            font-family: var(--font-primary);
+        }
+        
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: var(--royal-blue);
+            box-shadow: 0 0 0 3px rgba(65, 105, 225, 0.1);
+        }
+        
+        .form-error {
+            border-color: var(--error-color) !important;
+        }
+        
+        /* ===== Buttons ===== */
+        .button-container {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid var(--medium-gray);
+        }
+        
+        .btn {
+            padding: 14px 30px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            transition: all 0.3s ease;
+            min-width: 150px;
+            font-family: var(--font-primary);
+        }
+        
+        .btn-primary {
+            background: var(--royal-blue);
+            color: var(--white);
+        }
+        
+        .btn-primary:hover:not(:disabled) {
+            background: var(--royal-blue-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(65, 105, 225, 0.2);
+        }
+        
+        .btn-secondary {
+            background: var(--medium-gray);
+            color: var(--dark-gray);
+        }
+        
+        .btn-secondary:hover {
+            background: #d1d1d1;
+        }
+        
+        .btn-success {
+            background: var(--success-color);
+            color: var(--white);
+        }
+        
+        .btn-success:hover:not(:disabled) {
+            background: #218838;
+            transform: translateY(-2px);
+        }
+        
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+        
+        /* ===== Success Screen ===== */
+        .success-screen {
+            text-align: center;
+            padding: 40px 20px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .success-icon {
+            font-size: 100px;
+            color: var(--success-color);
+            margin-bottom: 30px;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        
+        .reference-number {
+            background: linear-gradient(135deg, var(--royal-blue) 0%, var(--royal-blue-dark) 100%);
+            color: var(--white);
+            padding: 15px 30px;
+            border-radius: 10px;
+            font-family: 'Courier New', monospace;
+            font-size: 28px;
+            font-weight: bold;
+            margin: 20px 0;
+            display: inline-block;
+            letter-spacing: 2px;
+        }
+        
+        .success-message {
+            background: #f8fff9;
+            padding: 30px;
+            border-radius: 15px;
+            border: 3px solid var(--success-color);
+            margin: 30px 0;
+            line-height: 1.8;
+            font-size: 18px;
+        }
+        
+        .next-steps {
+            background: linear-gradient(135deg, #e3f2fd, #f3f9ff);
+            padding: 25px;
+            border-radius: 12px;
+            margin: 30px 0;
+            border: 2px solid var(--royal-blue-light);
+            text-align: right;
+        }
+        
+        /* ===== Footer ===== */
+        .footer {
+            background: var(--royal-blue-dark);
+            color: var(--white);
+            padding: 40px 20px;
+            margin-top: 50px;
+            text-align: center;
+        }
+        
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            text-align: right;
+        }
+        
+        .footer-section h3 {
+            color: var(--royal-gold);
+            margin-bottom: 20px;
+            font-size: 20px;
+        }
+        
+        .copyright {
+            text-align: center;
+            padding-top: 20px;
+            margin-top: 30px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 14px;
+        }
+        
+        /* ===== Error & Toast ===== */
+        .error-message {
+            background: linear-gradient(135deg, #ffebee, #ffcdd2);
+            color: var(--error-color);
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            border: 2px solid var(--error-color);
+            display: none;
+        }
+        
+        .toast-notification {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%) translateY(-100px);
+            background: var(--success-color);
+            color: var(--white);
+            padding: 15px 25px;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            z-index: 10000;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            opacity: 0;
+            transition: all 0.5s ease;
+        }
+        
+        .toast-notification.show {
+            transform: translateX(-50%) translateY(0);
+            opacity: 1;
+        }
+        
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid var(--royal-blue);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        /* ===== Program Cards ===== */
+        .program-card {
+            background: var(--white);
+            border: 2px solid var(--medium-gray);
+            border-radius: 12px;
+            padding: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-bottom: 15px;
+        }
+        
+        .program-card:hover {
+            border-color: var(--royal-blue);
+        }
+        
+        .program-card.selected {
+            border-color: var(--success-color);
+            background: linear-gradient(135deg, #f8fff9, #e8f5e9);
+        }
+        
+        .program-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .program-title {
+            font-weight: 600;
+            color: var(--royal-blue-dark);
+            font-size: 18px;
+        }
+        
+        .program-details {
+            display: flex;
+            gap: 15px;
+            font-size: 14px;
+            color: var(--dark-gray);
+            flex-wrap: wrap;
+        }
+        
+        .program-details span {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .field-group {
+            background: linear-gradient(135deg, #f3e5f5, #f1f8e9);
+            padding: 20px;
+            border-radius: 12px;
+            margin: 20px 0;
+            border: 2px solid #ce93d8;
+            display: none;
+        }
+        
+        .gpa-calculator {
+            background: linear-gradient(135deg, #e3f2fd, #f3f9ff);
+            padding: 20px;
+            border-radius: 12px;
+            margin: 20px 0;
+            border: 2px solid var(--royal-blue-light);
+        }
+        
+        .calculation-result {
+            background: var(--white);
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 15px;
+            border: 2px solid var(--medium-gray);
+            text-align: center;
+            display: none;
+        }
+        
+        .eligible {
+            border-color: var(--success-color) !important;
+            background: #f8fff9 !important;
+        }
+        
+        .not-eligible {
+            border-color: var(--error-color) !important;
+            background: #ffebee !important;
+        }
+        
+        /* ===== Tabs Navigation ===== */
+        .nav-tabs {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            background-color: var(--white);
+            box-shadow: 0 2px 10px var(--shadow);
+            margin: 2rem auto;
+            border-radius: 10px;
+            overflow: hidden;
+            max-width: 1200px;
+        }
+        
+        .tab {
+            padding: 1rem 1.5rem;
+            background-color: transparent;
+            border: none;
+            font-family: var(--font-primary);
+            font-weight: 700;
+            font-size: 1rem;
+            color: var(--dark-gray);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            flex: 1;
+            min-width: 180px;
+            text-align: center;
+            border-bottom: 3px solid transparent;
+        }
+        
+        .tab:hover {
+            background-color: var(--medium-gray);
+            color: var(--royal-blue);
+        }
+        
+        .tab.active {
+            color: var(--royal-blue);
+            border-bottom: 3px solid var(--royal-blue);
+            background-color: rgba(65, 105, 225, 0.05);
+        }
+        
+        /* ===== Responsive Design ===== */
+        @media (max-width: 768px) {
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+            
+            .button-container {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .btn {
+                width: 100%;
+            }
+            
+            .stepper::before {
+                left: 20px;
+                right: 20px;
+            }
+            
+            .program-details {
+                flex-direction: column;
+                gap: 8px;
+            }
+            
+            .footer-content {
+                text-align: center;
+            }
+            
+            .reference-number {
+                font-size: 20px;
+                padding: 12px 20px;
+            }
+            
+            .success-icon {
+                font-size: 70px;
+            }
+            
+            .tab {
+                min-width: 100%;
+                border-bottom: 1px solid var(--medium-gray);
+            }
+            
+            .tab.active {
+                border-right: 3px solid var(--royal-blue);
+                border-bottom: 1px solid var(--medium-gray);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header Section -->
+    <header class="header">
+        <div class="logo-container">
+            <div class="university-logo">
+                <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M20,20 L80,20 L80,80 L20,80 Z" fill="none" stroke="#FFFFFF" stroke-width="4" stroke-linejoin="round"/>
+                    <path d="M30,25 L70,25" stroke="#FFFFFF" stroke-width="2"/>
+                    <path d="M30,35 L70,35" stroke="#FFFFFF" stroke-width="1.5"/>
+                    <path d="M30,45 L70,45" stroke="#FFFFFF" stroke-width="1.5"/>
+                    <path d="M30,55 L70,55" stroke="#FFFFFF" stroke-width="1.5"/>
+                    <path d="M30,65 L70,65" stroke="#FFFFFF" stroke-width="1.5"/>
+                    <path d="M30,75 L70,75" stroke="#FFFFFF" stroke-width="2"/>
+                    <path d="M20,20 Q40,15 50,30 T80,20" fill="none" stroke="#FFFFFF" stroke-width="3"/>
+                    <path d="M20,80 Q40,85 50,70 T80,80" fill="none" stroke="#FFFFFF" stroke-width="3"/>
+                    <circle cx="50" cy="50" r="10" fill="#FFC107" stroke="#FFFFFF" stroke-width="2"/>
+                    <path d="M50,35 L50,45 M50,55 L50,65 M65,50 L55,50 M35,50 L45,50" stroke="#FFFFFF" stroke-width="2"/>
+                </svg>
+            </div>
+        </div>
+        <h1><i class="fas fa-university"></i> نظام القبول الإلكتروني - الجامعة العربية المفتوحة</h1>
+        <p>نظام متطور لمساعدة الطلاب في تقديم طلبات الالتحاق بالجامعة</p>
+        <div class="academic-year">العام الجامعي 1446هـ (2025م)</div>
+    </header>
+    
+    <!-- Navigation Tabs -->
+    <nav class="nav-tabs container">
+        <button class="tab" onclick="showSection('info')">
+            <i class="fas fa-info-circle"></i> معلومات عامة
+        </button>
+        <button class="tab active" onclick="showSection('admission')">
+            <i class="fas fa-user-graduate"></i> التقديم الإلكتروني
+        </button>
+        <button class="tab" onclick="showSection('colleges')">
+            <i class="fas fa-university"></i> الكليات والتخصصات
+        </button>
+        <button class="tab" onclick="showSection('fees')">
+            <i class="fas fa-calculator"></i> الرسوم الدراسية
+        </button>
+    </nav>
+    
+    <div class="main-container">
+        <!-- Information Section -->
+        <div id="info" class="section-container" style="display: none;">
+            <div class="content-container">
+                <h2 style="color: var(--royal-blue); margin-bottom: 20px; text-align: center;">
+                    <i class="fas fa-info-circle"></i> معلومات عن الجامعة العربية المفتوحة
+                </h2>
+                
+                <div class="form-section">
+                    <div class="section-title">
+                        <i class="fas fa-star"></i>
+                        <span>مميزات الجامعة</span>
+                    </div>
+                    <p>تتميز الجامعة العربية المفتوحة بتقديم تعليم عالي الجودة عبر نظام التعليم المفتوح والتعلم الإلكتروني، مع التركيز على:</p>
+                    <ul class="specialization-list" style="margin-right: 20px; margin-top: 10px;">
+                        <li>المرونة في أوقات الدراسة</li>
+                        <li>تنوع البرامج الأكاديمية</li>
+                        <li>التعليم المدمج (الإلكتروني والحضوري)</li>
+                        <li>أسعار دراسية تنافسية</li>
+                        <li>فروع منتشرة في جميع أنحاء المملكة</li>
+                    </ul>
+                </div>
+                
+                <div class="form-section">
+                    <div class="section-title">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <span>الفروع</span>
+                    </div>
+                    <p>تتواجد الجامعة العربية المفتوحة في المدن التالية:</p>
+                    <div style="display: flex; flex-wrap: wrap; gap: 10px; margin-top: 15px;">
+                        <span style="background: var(--royal-blue-light); color: white; padding: 8px 15px; border-radius: 20px;">الرياض</span>
+                        <span style="background: var(--royal-blue-light); color: white; padding: 8px 15px; border-radius: 20px;">جدة</span>
+                        <span style="background: var(--royal-blue-light); color: white; padding: 8px 15px; border-radius: 20px;">الدمام</span>
+                        <span style="background: var(--royal-blue-light); color: white; padding: 8px 15px; border-radius: 20px;">المدينة المنورة</span>
+                        <span style="background: var(--royal-blue-light); color: white; padding: 8px 15px; border-radius: 20px;">أبها</span>
+                        <span style="background: var(--royal-blue-light); color: white; padding: 8px 15px; border-radius: 20px;">القصيم</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Admission Section (Stepper) -->
+        <div id="admission" class="section-container">
+            <div class="content-container">
+                <div class="stepper-container">
+                    <div class="stepper">
+                        <div class="step active" data-step="1">
+                            <div class="step-circle">1</div>
+                            <div class="step-label">البيانات الشخصية</div>
+                        </div>
+                        <div class="step" data-step="2">
+                            <div class="step-circle">2</div>
+                            <div class="step-label">المؤهل الأكاديمي</div>
+                        </div>
+                        <div class="step" data-step="3">
+                            <div class="step-circle">3</div>
+                            <div class="step-label">اختيار التخصص</div>
+                        </div>
+                        <div class="step" data-step="4">
+                            <div class="step-circle">4</div>
+                            <div class="step-label">التأكيد والإرسال</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="content">
+                    <!-- الخطوة 1: البيانات الشخصية -->
+                    <div id="step1" class="step-content active">
+                        <div class="form-section">
+                            <div class="section-title">
+                                <i class="fas fa-user-circle"></i>
+                                <span>البيانات الشخصية</span>
+                            </div>
+                            
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="fullName" class="required"><i class="fas fa-user"></i> الاسم الثلاثي</label>
+                                    <input type="text" id="fullName" placeholder="أدخل اسمك الثلاثي" required>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="idNumber" class="required"><i class="fas fa-id-card"></i> رقم الهوية/الإقامة</label>
+                                    <input type="text" id="idNumber" placeholder="أدخل رقم الهوية/الإقامة" required maxlength="10">
+                                    <small id="idTypeInfo" style="color: var(--dark-gray); margin-top: 5px; display: block;"></small>
+                                </div>
+                            </div>
+                            
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="gender" class="required"><i class="fas fa-venus-mars"></i> الجنس</label>
+                                    <select id="gender" required>
+                                        <option value="">اختر الجنس</option>
+                                        <option value="ذكر">ذكر</option>
+                                        <option value="أنثى">أنثى</option>
+                                    </select>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="nationality" class="required"><i class="fas fa-flag"></i> الجنسية</label>
+                                    <select id="nationality" required>
+                                        <option value="">اختر الجنسية</option>
+                                        <option value="سعودي">سعودي</option>
+                                        <option value="غير سعودي">غير سعودي</option>
+                                    </select>
+                                </div>
+                            </div>
+                            
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="applicantType" class="required"><i class="fas fa-user-tag"></i> نوع المتقدم</label>
+                                    <select id="applicantType" required>
+                                        <option value="">اختر نوع المتقدم</option>
+                                        <option value="new">خريج ثانوي جديد</option>
+                                        <option value="bridging">برنامج التجسير</option>
+                                        <option value="transfer">منقول من جامعة أخرى</option>
+                                        <option value="postgraduate">دراسات عليا</option>
+                                    </select>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="email" class="required"><i class="fas fa-envelope"></i> البريد الإلكتروني</label>
+                                    <input type="email" id="email" placeholder="example@domain.com" required>
+                                </div>
+                            </div>
+                            
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="phone" class="required"><i class="fas fa-phone"></i> رقم الجوال</label>
+                                    <input type="tel" id="phone" placeholder="05xxxxxxxx" required pattern="05[0-9]{8}">
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="branch" class="required"><i class="fas fa-map-marker-alt"></i> الفرع المطلوب</label>
+                                    <select id="branch" required>
+                                        <option value="">اختر الفرع</option>
+                                        <option value="الرياض">الرياض</option>
+                                        <option value="جدة">جدة</option>
+                                        <option value="الدمام">الدمام</option>
+                                        <option value="المدينة المنورة">المدينة المنورة</option>
+                                        <option value="أبها">أبها</option>
+                                        <option value="القصيم">القصيم</option>
+                                        <option value="حائل">حائل</option>
+                                        <option value="تبوك">تبوك</option>
+                                    </select>
+                                </div>
+                            </div>
+                            
+                            <!-- حقول برنامج التجسير -->
+                            <div id="bridgingFields" class="field-group">
+                                <div class="section-title">
+                                    <i class="fas fa-bridge"></i>
+                                    <span>بيانات برنامج التجسير</span>
+                                </div>
+                                
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="bridgingUniversity" class="required">الجامعة/الكلية السابقة</label>
+                                        <input type="text" id="bridgingUniversity" placeholder="اسم الجامعة أو الكلية">
+                                    </div>
+                                    
+                                    <div class="form-group">
+                                        <label for="diplomaSpecialty" class="required">تخصص الدبلوم</label>
+                                        <input type="text" id="diplomaSpecialty" placeholder="تخصص الدبلوم">
+                                    </div>
+                                    
+                                    <div class="form-group">
+                                        <label for="diplomaGPA" class="required">معدل الدبلوم</label>
+                                        <input type="number" id="diplomaGPA" placeholder="معدل الدبلوم" min="50" max="100" step="0.01">
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- حقول النقل -->
+                            <div id="transferFields" class="field-group">
+                                <div class="section-title">
+                                    <i class="fas fa-exchange-alt"></i>
+                                    <span>بيانات النقل</span>
+                                </div>
+                                
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="transferUniversity" class="required">الجامعة المنقول منها</label>
+                                        <input type="text" id="transferUniversity" placeholder="اسم الجامعة">
+                                    </div>
+                                    
+                                    <div class="form-group">
+                                        <label for="transferHours" class="required">عدد الساعات المنقولة</label>
+                                        <input type="number" id="transferHours" placeholder="عدد الساعات" min="0">
+                                    </div>
+                                    
+                                    <div class="form-group">
+                                        <label for="transferGPA" class="required">المعدل التراكمي السابق</label>
+                                        <input type="number" id="transferGPA" placeholder="المعدل التراكمي" min="0" max="5" step="0.01">
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- حقول الدراسات العليا -->
+                            <div id="postgraduateFields" class="field-group">
+                                <div class="section-title">
+                                    <i class="fas fa-graduation-cap"></i>
+                                    <span>بيانات الدراسات العليا</span>
+                                </div>
+                                
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="pgUniversity" class="required">جامعة التخرج</label>
+                                        <input type="text" id="pgUniversity" placeholder="اسم جامعة التخرج">
+                                    </div>
+                                    
+                                    <div class="form-group">
+                                        <label for="pgSpecialty" class="required">التخصص السابق</label>
+                                        <input type="text" id="pgSpecialty" placeholder="التخصص السابق">
+                                    </div>
+                                    
+                                    <div class="form-group">
+                                        <label for="pgGPA" class="required">المعدل التراكمي</label>
+                                        <input type="number" id="pgGPA" placeholder="المعدل التراكمي" min="0" max="5" step="0.01">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="button-container">
+                            <div></div>
+                            <button class="btn btn-success" onclick="nextStep()">
+                                <i class="fas fa-arrow-left"></i> التالي
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- الخطوة 2: المؤهل الأكاديمي -->
+                    <div id="step2" class="step-content">
+                        <div class="form-section">
+                            <div class="section-title">
+                                <i class="fas fa-graduation-cap"></i>
+                                <span>المؤهل الأكاديمي</span>
+                            </div>
+                            
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="qualificationType" class="required"><i class="fas fa-certificate"></i> نوع المؤهل</label>
+                                    <select id="qualificationType" required>
+                                        <option value="">اختر نوع المؤهل</option>
+                                        <option value="ثانوية عامة - علمي">ثانوية عامة - علمي</option>
+                                        <option value="ثانوية عامة - أدبي">ثانوية عامة - أدبي</option>
+                                        <option value="ثانوية تجارية">ثانوية تجارية</option>
+                                        <option value="ثانوية صناعية">ثانوية صناعية</option>
+                                        <option value="دبلوم الكلية التقنية">دبلوم الكلية التقنية</option>
+                                        <option value="بكالوريوس">بكالوريوس</option>
+                                    </select>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="specialization" class="required"><i class="fas fa-book"></i> التخصص</label>
+                                    <select id="specialization" required>
+                                        <option value="">اختر التخصص</option>
+                                        <option value="علمي طبيعي">علمي طبيعي</option>
+                                        <option value="أدبي إداري">أدبي إداري</option>
+                                        <option value="تجاري">تجاري</option>
+                                        <option value="صناعي">صناعي</option>
+                                        <option value="صحي">صحي</option>
+                                    </select>
+                                </div>
+                            </div>
+                            
+                            <div class="gpa-calculator">
+                                <div class="section-title">
+                                    <i class="fas fa-calculator"></i>
+                                    <span>حاسبة النسبة الموزونة للقبول</span>
+                                </div>
+                                <p style="margin-bottom: 15px; color: var(--dark-gray);">
+                                    <i class="fas fa-info-circle"></i> تحسب النسبة الموزونة كما يلي: <strong>(30% الثانوية + 30% القدرات + 40% التحصيلي)</strong>
+                                </p>
+                                
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="highschoolGPA" class="required">معدل الثانوية العامة %</label>
+                                        <input type="number" id="highschoolGPA" placeholder="أدخل المعدل من 100%" required min="50" max="100" step="0.01">
+                                    </div>
+                                    
+                                    <div class="form-group">
+                                        <label for="aptitudeScore" class="required">درجة اختبار القدرات %</label>
+                                        <input type="number" id="aptitudeScore" placeholder="درجة القدرات" required min="0" max="100">
+                                    </div>
+                                    
+                                    <div class="form-group">
+                                        <label for="achievementScore" class="required">درجة اختبار التحصيلي %</label>
+                                        <input type="number" id="achievementScore" placeholder="درجة التحصيلي" required min="0" max="100">
+                                    </div>
+                                </div>
+                                
+                                <div class="calculation-result" id="weightedAverageResult">
+                                    <!-- سيتم ملؤها برمجياً -->
+                                </div>
+                            </div>
+                            
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="studyType" class="required"><i class="fas fa-laptop-house"></i> نوع الدراسة</label>
+                                    <select id="studyType" required>
+                                        <option value="">اختر نوع الدراسة</option>
+                                        <option value="منتظم">انتظام (حضوري)</option>
+                                        <option value="عن بعد">تعليم عن بعد</option>
+                                        <option value="مدمج">تعليم مدمج</option>
+                                    </select>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="studySystem" class="required"><i class="fas fa-calendar-alt"></i> نظام الدراسة</label>
+                                    <select id="studySystem" required>
+                                        <option value="">اختر النظام</option>
+                                        <option value="فصلي">فصلي</option>
+                                        <option value="ساعات">نظام الساعات</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="button-container">
+                            <button class="btn btn-secondary" onclick="prevStep()">
+                                <i class="fas fa-arrow-right"></i> السابق
+                            </button>
+                            <button class="btn btn-success" onclick="nextStep()">
+                                <i class="fas fa-arrow-left"></i> التالي
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- الخطوة 3: اختيار التخصص -->
+                    <div id="step3" class="step-content">
+                        <div class="form-section">
+                            <div class="section-title">
+                                <i class="fas fa-list-alt"></i>
+                                <span>اختيار الكلية والتخصص</span>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="collegeSelect" class="required"><i class="fas fa-university"></i> اختر الكلية</label>
+                                <select id="collegeSelect" required>
+                                    <option value="">اختر الكلية أولاً</option>
+                                </select>
+                            </div>
+                            
+                            <div id="programsContainer" style="margin: 25px 0;">
+                                <!-- سيتم ملؤها برمجياً -->
+                            </div>
+                            
+                            <div id="eligibilityMessage" class="form-section" style="display: none;">
+                                <!-- سيتم ملؤها برمجياً -->
+                            </div>
+                        </div>
+                        
+                        <div class="button-container">
+                            <button class="btn btn-secondary" onclick="prevStep()">
+                                <i class="fas fa-arrow-right"></i> السابق
+                            </button>
+                            <button class="btn btn-success" onclick="nextStep()">
+                                <i class="fas fa-arrow-left"></i> التالي
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- الخطوة 4: المراجعة والإرسال -->
+                    <div id="step4" class="step-content">
+                        <form id="web3form" action="https://api.web3forms.com/submit" method="POST" style="display: none;">
+                            <input type="hidden" name="access_key" value="8f907260-fc10-46e0-b5b6-422b56f45c19">
+                            <input type="hidden" name="subject" value="طلب تسجيل جديد - الجامعة العربية المفتوحة 2025">
+                            <input type="hidden" name="from_name" value="نظام القبول - الجامعة العربية المفتوحة">
+                            <input type="checkbox" name="botcheck" style="display: none;">
+                            
+                            <!-- بيانات الطلب -->
+                            <input type="hidden" name="application_number" id="hiddenAppNumber">
+                            <input type="hidden" name="full_name" id="hiddenFullName">
+                            <input type="hidden" name="id_number" id="hiddenIdNumber">
+                            <input type="hidden" name="gender" id="hiddenGender">
+                            <input type="hidden" name="nationality" id="hiddenNationality">
+                            <input type="hidden" name="applicant_type" id="hiddenApplicantType">
+                            <input type="hidden" name="email" id="hiddenEmail">
+                            <input type="hidden" name="phone" id="hiddenPhone">
+                            <input type="hidden" name="branch" id="hiddenBranch">
+                            <input type="hidden" name="qualification" id="hiddenQualification">
+                            <input type="hidden" name="specialization" id="hiddenSpecialization">
+                            <input type="hidden" name="highschool_gpa" id="hiddenHighschoolGPA">
+                            <input type="hidden" name="aptitude_score" id="hiddenAptitudeScore">
+                            <input type="hidden" name="achievement_score" id="hiddenAchievementScore">
+                            <input type="hidden" name="weighted_average" id="hiddenWeightedAverage">
+                            <input type="hidden" name="study_type" id="hiddenStudyType">
+                            <input type="hidden" name="study_system" id="hiddenStudySystem">
+                            <input type="hidden" name="college" id="hiddenCollege">
+                            <input type="hidden" name="selected_program" id="hiddenProgram">
+                            <input type="hidden" name="program_min_gpa" id="hiddenProgramMinGPA">
+                            <input type="hidden" name="eligibility_status" id="hiddenEligibilityStatus">
+                            <input type="hidden" name="submission_time" id="hiddenTime">
+                            <input type="hidden" name="redirect" value="false">
+                            
+                            <!-- حقول مشروطة - سيتم إضافة قيمها فقط إذا كانت مملوءة -->
+                            <input type="hidden" name="bridging_university" id="hiddenBridgingUniversity">
+                            <input type="hidden" name="diploma_specialty" id="hiddenDiplomaSpecialty">
+                            <input type="hidden" name="diploma_gpa" id="hiddenDiplomaGPA">
+                            <input type="hidden" name="transfer_university" id="hiddenTransferUniversity">
+                            <input type="hidden" name="transfer_hours" id="hiddenTransferHours">
+                            <input type="hidden" name="transfer_gpa" id="hiddenTransferGPA">
+                            <input type="hidden" name="pg_university" id="hiddenPgUniversity">
+                            <input type="hidden" name="pg_specialty" id="hiddenPgSpecialty">
+                            <input type="hidden" name="pg_gpa" id="hiddenPgGPA">
+                        </form>
+                        
+                        <div class="error-message" id="errorMessage">
+                            <i class="fas fa-exclamation-circle"></i>
+                            <span id="errorText">حدث خطأ أثناء إرسال الطلب. يرجى المحاولة مرة أخرى.</span>
+                        </div>
+                        
+                        <div class="form-section">
+                            <div class="section-title">
+                                <i class="fas fa-clipboard-check"></i>
+                                <span>مراجعة الطلب</span>
+                            </div>
+                            
+                            <div id="reviewData" style="padding: 20px; background: var(--light-gray); border-radius: 10px; margin-bottom: 30px;">
+                                <!-- سيتم ملؤها ببيانات المراجعة -->
+                            </div>
+                            
+                            <div class="form-section">
+                                <div class="section-title">
+                                    <i class="fas fa-file-signature"></i>
+                                    <span>الموافقة النهائية</span>
+                                </div>
+                                
+                                <div style="padding: 20px; background: #f9f9f9; border-radius: 10px; border: 2px solid var(--medium-gray);">
+                                    <div style="display: flex; gap: 15px; margin-bottom: 20px;">
+                                        <input type="checkbox" id="termsAgreement" style="width: auto;" required>
+                                        <label for="termsAgreement" style="margin: 0; color: var(--royal-blue-dark); line-height: 1.6;">
+                                            أوافق على جميع الشروط والأحكام، وأقر بصدق البيانات المقدمة وأتحمل المسؤولية القانونية عن أي معلومات غير صحيحة.
+                                        </label>
+                                    </div>
+                                    
+                                    <div style="display: flex; gap: 15px;">
+                                        <input type="checkbox" id="paymentAgreement" style="width: auto;">
+                                        <label for="paymentAgreement" style="margin: 0; color: var(--royal-blue-dark); line-height: 1.6;">
+                                            أوافق على دفع رسوم التسجيل وقبول الدراسة (600 ريال) وأعلم أن بقية الرسوم ستحدد لاحقاً من قبل الشؤون الإدارية والمالية.
+                                        </label>
+                                    </div>
+                                </div>
+                                
+                                <div style="margin-top: 20px; padding: 15px; background: #fff3cd; border-radius: 8px; border: 1px solid #ffeaa7;">
+                                    <i class="fas fa-info-circle" style="color: #856404;"></i>
+                                    <span style="color: #856404;">
+                                        <strong>ملاحظة:</strong> بعد إرسال الطلب، سيتواصل معك موظف الشؤون الإدارية والمالية خلال 48 ساعة عمل لتأكيد القبول وإكمال بقية الإجراءات.
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="button-container">
+                            <button class="btn btn-secondary" onclick="prevStep()">
+                                <i class="fas fa-arrow-right"></i> السابق
+                            </button>
+                            <button class="btn btn-success" onclick="submitApplicationDirectly()" id="submitBtn">
+                                <i class="fas fa-paper-plane"></i> تأكيد الطلب والإرسال
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- شاشة النجاح (ستظهر بعد الإرسال الناجح) -->
+                    <div id="successScreen" class="step-content" style="display: none;">
+                        <div class="success-screen">
+                            <div class="success-icon">
+                                <i class="fas fa-check-circle"></i>
+                            </div>
+                            
+                            <h2 style="color: var(--success-color); margin-bottom: 20px;">تم تقديم الطلب بنجاح!</h2>
+                            
+                            <div class="reference-number" id="appReferenceNumber">
+                                AOU-2025-000000
+                            </div>
+                            
+                            <div class="success-message">
+                                <p style="font-size: 20px; line-height: 1.8; margin-bottom: 15px;">
+                                    <strong>تم تقديم الطلب بنجاح. سيتم التواصل بك من قبل موظف الشؤون الإدارية والمالية لتأكيد القبول ودفع الرسوم واستكمال بقية الإجراءات.</strong>
+                                </p>
+                                <p style="color: var(--royal-blue-dark); margin-bottom: 10px;">
+                                    <i class="fas fa-envelope"></i> سيصلك تأكيد على بريدك الإلكتروني: <span id="successEmail"></span>
+                                </p>
+                                <p style="color: var(--royal-blue-dark);">
+                                    <i class="fas fa-phone"></i> وسيتم التواصل معك على رقم الجوال: <span id="successPhone"></span>
+                                </p>
+                            </div>
+                            
+                            <div class="next-steps">
+                                <h3 style="color: var(--royal-blue); margin-bottom: 15px;">خطوات المتابعة:</h3>
+                                <ol style="text-align: right; margin-right: 20px; line-height: 2;">
+                                    <li>انتظار اتصال أو رسالة من الشؤون الإدارية والمالية خلال 48 ساعة عمل</li>
+                                    <li>تأكيد دفع رسوم التسجيل (600 ريال) كما سيتم إرشادك</li>
+                                    <li>إرسال المستندات المطلوبة عبر البريد الإلكتروني</li>
+                                    <li>استكمال التسجيل النهائي وتسجيل المقررات</li>
+                                    <li>بدء الدراسة حسب الجدول الزمني المحدد</li>
+                                </ol>
+                            </div>
+                            
+                            <div style="margin-top: 30px;">
+                                <p style="color: var(--dark-gray); margin-bottom: 20px;">
+                                    <i class="fas fa-info-circle"></i> لقد تم حفظ طلبك في نظامنا برقم المرجع أعلاه.
+                                </p>
+                                
+                                <button class="btn btn-primary" onclick="location.reload()" style="margin: 10px;">
+                                    <i class="fas fa-redo"></i> تقديم طلب جديد
+                                </button>
+                                
+                                <button class="btn btn-secondary" onclick="printApplication()" style="margin: 10px;">
+                                    <i class="fas fa-print"></i> طباعة الطلب
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Colleges Section -->
+        <div id="colleges" class="section-container" style="display: none;">
+            <div class="content-container">
+                <h2 style="color: var(--royal-blue); margin-bottom: 20px; text-align: center;">
+                    <i class="fas fa-university"></i> الكليات والتخصصات المتاحة
+                </h2>
+                
+                <div class="form-section">
+                    <h3 style="color: var(--royal-blue-dark); margin-bottom: 15px;">كلية دراسات الحاسب الآلي</h3>
+                    <p style="color: var(--royal-blue); margin-bottom: 10px;"><strong>رسوم الساعة: 215 ريال سعودي</strong></p>
+                    <ul class="specialization-list" style="margin-right: 20px;">
+                        <li>تقنية المعلومات (مسار أمن المعلومات والشبكات)</li>
+                        <li>تقنية المعلومات (مسار الذكاء الاصطناعي وتحليل البيانات)</li>
+                        <li>تقنية المعلومات (مسار تطوير الويب والتطبيقات)</li>
+                        <li>علوم الحاسب الآلي</li>
+                        <li>هندسة البرمجيات</li>
+                    </ul>
+                </div>
+                
+                <div class="form-section">
+                    <h3 style="color: var(--royal-blue-dark); margin-bottom: 15px;">كلية دراسات إدارة الأعمال</h3>
+                    <p style="color: var(--royal-blue); margin-bottom: 10px;"><strong>رسوم الساعة: 190 ريال سعودي</strong></p>
+                    <ul class="specialization-list" style="margin-right: 20px;">
+                        <li>إدارة الأعمال (مسار الإدارة العامة)</li>
+                        <li>إدارة الأعمال (مسار التسويق)</li>
+                        <li>إدارة الأعمال (مسار الموارد البشرية)</li>
+                        <li>المحاسبة</li>
+                        <li>نظم المعلومات الإدارية</li>
+                    </ul>
+                </div>
+                
+                <div class="form-section">
+                    <h3 style="color: var(--royal-blue-dark); margin-bottom: 15px;">كلية الدراسات اللغوية</h3>
+                    <p style="color: var(--royal-blue); margin-bottom: 10px;"><strong>رسوم الساعة: 190 ريال سعودي</strong></p>
+                    <ul class="specialization-list" style="margin-right: 20px;">
+                        <li>اللغة الإنجليزية وآدابها</li>
+                        <li>الترجمة (مسار الترجمة التحريرية)</li>
+                        <li>اللغويات التطبيقية</li>
+                        <li>اللغة العربية وآدابها</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Fees Section -->
+        <div id="fees" class="section-container" style="display: none;">
+            <div class="content-container">
+                <h2 style="color: var(--royal-blue); margin-bottom: 20px; text-align: center;">
+                    <i class="fas fa-calculator"></i> الرسوم الدراسية
+                </h2>
+                
+                <div class="form-section">
+                    <div class="section-title">
+                        <i class="fas fa-money-bill-wave"></i>
+                        <span>تفاصيل الرسوم الدراسية</span>
+                    </div>
+                    
+                    <div style="padding: 20px; background: var(--light-gray); border-radius: 10px; margin-bottom: 20px;">
+                        <h4 style="color: var(--royal-blue-dark); margin-bottom: 15px;">الرسوم الفصلية الثابتة:</h4>
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px;">
+                            <div style="background: white; padding: 15px; border-radius: 8px; border-left: 4px solid var(--royal-blue);">
+                                <p style="margin: 0; font-weight: bold;">رسوم التسجيل</p>
+                                <p style="margin: 5px 0 0 0; color: var(--royal-blue); font-size: 18px;">200 ريال</p>
+                            </div>
+                            <div style="background: white; padding: 15px; border-radius: 8px; border-left: 4px solid var(--royal-blue);">
+                                <p style="margin: 0; font-weight: bold;">رسوم التكنولوجيا</p>
+                                <p style="margin: 5px 0 0 0; color: var(--royal-blue); font-size: 18px;">200 ريال</p>
+                            </div>
+                            <div style="background: white; padding: 15px; border-radius: 8px; border-left: 4px solid var(--royal-blue);">
+                                <p style="margin: 0; font-weight: bold;">رسوم النشاط الطلابي</p>
+                                <p style="margin: 5px 0 0 0; color: var(--royal-blue); font-size: 18px;">50 ريال</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div style="padding: 20px; background: #f0f7ff; border-radius: 10px; border: 2px solid var(--royal-blue-light);">
+                        <h4 style="color: var(--royal-blue-dark); margin-bottom: 15px;">رسوم الساعات المعتمدة:</h4>
+                        <table style="width: 100%; border-collapse: collapse;">
+                            <thead>
+                                <tr style="background: var(--royal-blue); color: white;">
+                                    <th style="padding: 12px; text-align: right;">الكلية</th>
+                                    <th style="padding: 12px; text-align: center;">رسوم الساعة</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr style="border-bottom: 1px solid var(--medium-gray);">
+                                    <td style="padding: 12px; text-align: right;">كلية دراسات الحاسب الآلي</td>
+                                    <td style="padding: 12px; text-align: center; color: var(--royal-blue); font-weight: bold;">215 ريال</td>
+                                </tr>
+                                <tr style="border-bottom: 1px solid var(--medium-gray);">
+                                    <td style="padding: 12px; text-align: right;">كلية دراسات إدارة الأعمال</td>
+                                    <td style="padding: 12px; text-align: center; color: var(--royal-blue); font-weight: bold;">190 ريال</td>
+                                </tr>
+                                <tr style="border-bottom: 1px solid var(--medium-gray);">
+                                    <td style="padding: 12px; text-align: right;">كلية الدراسات اللغوية</td>
+                                    <td style="padding: 12px; text-align: center; color: var(--royal-blue); font-weight: bold;">190 ريال</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 12px; text-align: right;">كلية التربية</td>
+                                    <td style="padding: 12px; text-align: center; color: var(--royal-blue); font-weight: bold;">190 ريال</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>الجامعة العربية المفتوحة</h3>
+                <p>جامعة رائدة في التعليم المفتوح والتعلم الإلكتروني، تهدف إلى تقديم تعليم عالي الجودة وفقاً لأعلى المعايير الأكاديمية.</p>
+                <p>نحن ملتزمون بتخريج كوادر مؤهلة تلبي احتياجات سوق العمل المحلي والإقليمي.</p>
+            </div>
+            
+            <div class="footer-section">
+                <h3>معلومات التواصل</h3>
+                <div style="display: flex; flex-direction: column; gap: 10px;">
+                    <div style="display: flex; align-items: center; gap: 10px;">
+                        <i class="fas fa-phone"></i>
+                        <span>+966 11 123 4567</span>
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 10px;">
+                        <i class="fas fa-envelope"></i>
+                        <span>admission@arabou.edu.sa</span>
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 10px;">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <span>الرياض - حي العليا</span>
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 10px;">
+                        <i class="fas fa-clock"></i>
+                        <span>الأحد - الخميس: 8 ص - 4 م</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="footer-section">
+                <h3>عمادة القبول والتسجيل</h3>
+                <p>نظام القبول الإلكتروني للعام الجامعي 1446هـ/2025م</p>
+                <p>جميع الحقوق محفوظة © 2024</p>
+            </div>
+        </div>
+        
+        <div class="copyright">
+            <p>نظام القبول الإلكتروني - الجامعة العربية المفتوحة - الإصدار 3.0 (محدث 2025)</p>
+        </div>
+    </footer>
+    
+    <div class="toast-notification" id="toastNotification">
+        <i class="fas fa-check-circle"></i>
+        <span id="toastMessage">تم النسخ بنجاح!</span>
+    </div>
+
+    <script>
+    // ============ إدارة الحالة والنظام ============
+    const AdmissionSystem = {
+        currentStep: 1,
+        applicantType: 'new',
+        gender: '',
+        weightedAverage: 0,
+        studyType: '',
+        studySystem: '',
+        selectedProgram: null,
+        selectedCollege: null,
+        applicationNumber: '',
+        
+        // قاعدة بيانات الجامعة العربية المفتوحة 2025
+        knowledgeBase: {
+            colleges: [
+                {
+                    id: 1,
+                    name: "كلية دراسات الحاسب الآلي",
+                    minGPA: 70,
+                    programs: [
+                        { id: 101, name: "تقنية المعلومات (مسار أمن المعلومات والشبكات)", minGPA: 75, minGPAFemale: 78, duration: 4, credits: 120, gender: 'both', availableFor: ['new', 'bridging'], scholarship: 0, requiredScore: 'علمي' },
+                        { id: 102, name: "تقنية المعلومات (مسار الذكاء الاصطناعي وتحليل البيانات)", minGPA: 80, minGPAFemale: 83, duration: 4, credits: 120, gender: 'both', availableFor: ['new'], scholarship: 0, requiredScore: 'علمي' },
+                        { id: 103, name: "تقنية المعلومات (مسار تطوير الويب والتطبيقات)", minGPA: 75, minGPAFemale: 78, duration: 4, credits: 120, gender: 'both', availableFor: ['new', 'bridging'], scholarship: 0, requiredScore: 'علمي' },
+                        { id: 104, name: "علوم الحاسب الآلي", minGPA: 82, minGPAFemale: 85, duration: 4, credits: 120, gender: 'both', availableFor: ['new'], scholarship: 0, requiredScore: 'علمي' },
+                        { id: 105, name: "هندسة البرمجيات", minGPA: 80, minGPAFemale: 83, duration: 4, credits: 120, gender: 'both', availableFor: ['new', 'transfer'], scholarship: 0, requiredScore: 'علمي' }
+                    ]
+                },
+                {
+                    id: 2,
+                    name: "كلية دراسات إدارة الأعمال",
+                    minGPA: 65,
+                    programs: [
+                        { id: 201, name: "إدارة الأعمال (مسار الإدارة العامة)", minGPA: 70, minGPAFemale: 73, duration: 4, credits: 120, gender: 'both', availableFor: ['new', 'bridging', 'transfer'], scholarship: 0, requiredScore: 'أدبي/علمي' },
+                        { id: 202, name: "إدارة الأعمال (مسار التسويق)", minGPA: 72, minGPAFemale: 75, duration: 4, credits: 120, gender: 'both', availableFor: ['new', 'bridging'], scholarship: 0, requiredScore: 'أدبي/علمي' },
+                        { id: 203, name: "إدارة الأعمال (مسار الموارد البشرية)", minGPA: 70, minGPAFemale: 73, duration: 4, credits: 120, gender: 'both', availableFor: ['new', 'transfer'], scholarship: 0, requiredScore: 'أدبي/علمي' },
+                        { id: 204, name: "المحاسبة", minGPA: 75, minGPAFemale: 78, duration: 4, credits: 120, gender: 'both', availableFor: ['new', 'bridging'], scholarship: 0, requiredScore: 'أدبي/علمي' },
+                        { id: 205, name: "نظم المعلومات الإدارية", minGPA: 73, minGPAFemale: 76, duration: 4, credits: 120, gender: 'both', availableFor: ['new'], scholarship: 0, requiredScore: 'أدبي/علمي' }
+                    ]
+                },
+                {
+                    id: 3,
+                    name: "كلية الدراسات اللغوية",
+                    minGPA: 65,
+                    programs: [
+                        { id: 301, name: "اللغة الإنجليزية وآدابها", minGPA: 75, minGPAFemale: 78, duration: 4, credits: 120, gender: 'both', availableFor: ['new', 'bridging', 'transfer'], scholarship: 0, requiredScore: 'أدبي' },
+                        { id: 302, name: "الترجمة (مسار الترجمة التحريرية)", minGPA: 78, minGPAFemale: 81, duration: 4, credits: 120, gender: 'both', availableFor: ['new'], scholarship: 0, requiredScore: 'أدبي' },
+                        { id: 303, name: "اللغويات التطبيقية", minGPA: 76, minGPAFemale: 79, duration: 4, credits: 120, gender: 'both', availableFor: ['new', 'bridging'], scholarship: 0, requiredScore: 'أدبي' },
+                        { id: 304, name: "اللغة العربية وآدابها", minGPA: 74, minGPAFemale: 77, duration: 4, credits: 120, gender: 'both', availableFor: ['new'], scholarship: 0, requiredScore: 'أدبي' }
+                    ]
+                },
+                {
+                    id: 4,
+                    name: "كلية التربية",
+                    minGPA: 65,
+                    programs: [
+                        { id: 401, name: "التربية الخاصة (مسار صعوبات التعلم)", minGPA: 72, minGPAFemale: 75, duration: 4, credits: 120, gender: 'both', availableFor: ['new', 'bridging'], scholarship: 0, requiredScore: 'أدبي/علمي' },
+                        { id: 402, name: "تكنولوجيا التعليم", minGPA: 70, minGPAFemale: 73, duration: 4, credits: 120, gender: 'both', availableFor: ['new', 'transfer'], scholarship: 0, requiredScore: 'أدبي/علمي' },
+                        { id: 403, name: "الإدارة التربوية", minGPA: 71, minGPAFemale: 74, duration: 4, credits: 120, gender: 'both', availableFor: ['new', 'bridging'], scholarship: 0, requiredScore: 'أدبي/علمي' }
+                    ]
+                },
+                {
+                    id: 5,
+                    name: "كلية الدراسات الاجتماعية",
+                    minGPA: 60,
+                    programs: [
+                        { id: 501, name: "علم الاجتماع", minGPA: 65, minGPAFemale: 68, duration: 4, credits: 120, gender: 'both', availableFor: ['new', 'bridging'], scholarship: 0, requiredScore: 'أدبي' },
+                        { id: 502, name: "علم النفس", minGPA: 70, minGPAFemale: 73, duration: 4, credits: 120, gender: 'both', availableFor: ['new', 'transfer'], scholarship: 0, requiredScore: 'أدبي' }
+                    ]
+                }
+            ]
+        },
+        
+        // حساب النسبة الموزونة
+        calculateWeightedAverage() {
+            const highschool = parseFloat(document.getElementById('highschoolGPA').value) || 0;
+            const aptitude = parseFloat(document.getElementById('aptitudeScore').value) || 0;
+            const achievement = parseFloat(document.getElementById('achievementScore').value) || 0;
+            
+            const weighted = (highschool * 0.30) + (aptitude * 0.30) + (achievement * 0.40);
+            this.weightedAverage = parseFloat(weighted.toFixed(2));
+            
+            // عرض النتيجة
+            const resultDiv = document.getElementById('weightedAverageResult');
+            resultDiv.style.display = 'block';
+            resultDiv.innerHTML = `
+                <h4 style="color: var(--royal-blue); margin-bottom: 10px;"><i class="fas fa-calculator"></i> النتيجة المحسوبة</h4>
+                <div style="font-size: 32px; font-weight: bold; color: ${this.weightedAverage >= 70 ? 'var(--success-color)' : 'var(--error-color)'};">
+                    ${this.weightedAverage}%
+                </div>
+                <div style="margin-top: 10px; color: var(--dark-gray);">
+                    <div>(30% × ${highschool}) + (30% × ${aptitude}) + (40% × ${achievement})</div>
+                    <div style="margin-top: 5px; font-size: 14px;">
+                        ${this.weightedAverage >= 80 ? '✅ نسبة ممتازة - مؤهل لجميع التخصصات' : 
+                          this.weightedAverage >= 70 ? '✅ نسبة جيدة - مؤهل لمعظم التخصصات' : 
+                          this.weightedAverage >= 60 ? '⚠️ نسبة متوسطة - مؤهل لبعض التخصصات' : 
+                          '❌ نسبة ضعيفة - يرجى تحسين النسبة للقبول'}
+                    </div>
+                </div>
+            `;
+            
+            // تحديث قائمة التخصصات إذا كانت مفتوحة
+            if (this.currentStep >= 3) {
+                const collegeSelect = document.getElementById('collegeSelect');
+                if (collegeSelect.value) {
+                    this.loadRecommendedPrograms(collegeSelect.value);
+                }
+            }
+            
+            return this.weightedAverage;
+        },
+        
+        // تحليل رقم الهوية
+        analyzeIdNumber(id) {
+            if (!id) return;
+            
+            const idTypeInfo = document.getElementById('idTypeInfo');
+            if (id.startsWith('1')) {
+                document.getElementById('nationality').value = 'سعودي';
+                idTypeInfo.innerHTML = '<i class="fas fa-check-circle" style="color: green;"></i> تم التعرف: هوية سعودية';
+            } else if (id.startsWith('2')) {
+                document.getElementById('nationality').value = 'غير سعودي';
+                idTypeInfo.innerHTML = '<i class="fas fa-info-circle" style="color: orange;"></i> تم التعرف: إقامة';
+            }
+        }
+    };
+
+    // ============ تهيئة النظام ============
+    document.addEventListener('DOMContentLoaded', function() {
+        initializeSystem();
+        setupEventListeners();
+        loadColleges();
+        
+        // تفعيل التبويب الأول
+        document.querySelectorAll('.tab')[1].classList.add('active');
+    });
+    
+    function initializeSystem() {
+        AdmissionSystem.updateConditionalFields();
+        
+        // إعداد مستمعي الأحداث للحقول الحساسة
+        const gpaFields = ['highschoolGPA', 'aptitudeScore', 'achievementScore'];
+        gpaFields.forEach(fieldId => {
+            document.getElementById(fieldId).addEventListener('input', function() {
+                if (this.value && this.value >= 0 && this.value <= 100) {
+                    AdmissionSystem.calculateWeightedAverage();
+                }
+            });
+        });
+    }
+    
+    function loadColleges() {
+        const select = document.getElementById('collegeSelect');
+        select.innerHTML = '<option value="">اختر الكلية أولاً</option>';
+        
+        AdmissionSystem.knowledgeBase.colleges.forEach(college => {
+            const option = document.createElement('option');
+            option.value = college.id;
+            option.textContent = college.name;
+            select.appendChild(option);
+        });
+    }
+    
+    function setupEventListeners() {
+        // تحليل رقم الهوية
+        document.getElementById('idNumber').addEventListener('input', (e) => {
+            AdmissionSystem.analyzeIdNumber(e.target.value);
+        });
+        
+        // تحديث الحقول المشروطة
+        document.getElementById('applicantType').addEventListener('change', (e) => {
+            AdmissionSystem.updateConditionalFields();
+        });
+        
+        // تحديث اختيار الكلية
+        document.getElementById('collegeSelect').addEventListener('change', (e) => {
+            AdmissionSystem.loadRecommendedPrograms(e.target.value);
+        });
+        
+        // تحديث الجنس
+        document.getElementById('gender').addEventListener('change', (e) => {
+            AdmissionSystem.gender = e.target.value;
+            // إعادة تحميل البرامج عند تغيير الجنس
+            const collegeSelect = document.getElementById('collegeSelect');
+            if (collegeSelect.value) {
+                AdmissionSystem.loadRecommendedPrograms(collegeSelect.value);
+            }
+        });
+    }
+    
+    // ============ تحديث الحقول المشروطة حسب نوع المتقدم وضمان تعطيل غير النشط منها ============
+    AdmissionSystem.updateConditionalFields = function() {
+        const applicantType = document.getElementById('applicantType').value;
+        this.applicantType = applicantType;
+        
+        const sections = {
+            'bridging': document.getElementById('bridgingFields'),
+            'transfer': document.getElementById('transferFields'),
+            'postgraduate': document.getElementById('postgraduateFields')
+        };
+
+        // إخفاء وتعطيل كافة الأقسام أولاً لضمان عدم تداخل الحقول الإجبارية
+        Object.keys(sections).forEach(key => {
+            const section = sections[key];
+            if (section) {
+                section.style.display = 'none';
+                // تعطيل كافة المدخلات داخل القسم لكي يتجاهلها المتصفح عند الإرسال
+                const inputs = section.querySelectorAll('input, select');
+                inputs.forEach(input => {
+                    input.disabled = true;
+                    input.required = false; 
+                });
+            }
+        });
+
+        // تفعيل وإظهار القسم المختار فقط
+        if (sections[applicantType]) {
+            sections[applicantType].style.display = 'block';
+            const activeInputs = sections[applicantType].querySelectorAll('input, select');
+            activeInputs.forEach(input => {
+                input.disabled = false;
+                input.required = true; // جعلها إجبارية فقط لأنها ظاهرة الآن
+            });
+        }
+    };
+    
+    // ============ إدارة الخطوات ============
+    function nextStep() {
+        if (!validateCurrentStep()) {
+            return;
+        }
+        
+        // حفظ البيانات الحالية
+        if (AdmissionSystem.currentStep === 4) {
+            updateReviewData();
+        }
+        
+        // الانتقال للخطوة التالية
+        document.querySelector(`#step${AdmissionSystem.currentStep}`).classList.remove('active');
+        document.querySelector(`.step[data-step="${AdmissionSystem.currentStep}"]`).classList.remove('active');
+        
+        AdmissionSystem.currentStep++;
+        
+        document.querySelector(`#step${AdmissionSystem.currentStep}`).classList.add('active');
+        document.querySelector(`.step[data-step="${AdmissionSystem.currentStep}"]`).classList.add('active');
+        
+        // تحديث حالة الخطوات السابقة
+        for (let i = 1; i < AdmissionSystem.currentStep; i++) {
+            document.querySelector(`.step[data-step="${i}"]`).classList.add('completed');
+        }
+        
+        // تحميل البرامج إذا كانت الخطوة 3
+        if (AdmissionSystem.currentStep === 3) {
+            const collegeSelect = document.getElementById('collegeSelect');
+            if (collegeSelect.value) {
+                AdmissionSystem.loadRecommendedPrograms(collegeSelect.value);
+            }
+        }
+        
+        // التمرير للأعلى
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+    
+    function prevStep() {
+        document.querySelector(`#step${AdmissionSystem.currentStep}`).classList.remove('active');
+        document.querySelector(`.step[data-step="${AdmissionSystem.currentStep}"]`).classList.remove('active');
+        
+        AdmissionSystem.currentStep--;
+        
+        document.querySelector(`#step${AdmissionSystem.currentStep}`).classList.add('active');
+        document.querySelector(`.step[data-step="${AdmissionSystem.currentStep}"]`).classList.add('active');
+        
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+    
+    // ============ التحقق من الخطوات ============
+    function validateCurrentStep() {
+        switch(AdmissionSystem.currentStep) {
+            case 1:
+                return validateStep1();
+            case 2:
+                return validateStep2();
+            case 3:
+                return validateStep3();
+            case 4:
+                return validateStep4();
+            default:
+                return true;
+        }
+    }
+    
+    function validateStep1() {
+        const required = ['fullName', 'idNumber', 'gender', 'nationality', 'applicantType', 'email', 'phone', 'branch'];
+        let isValid = true;
+        
+        required.forEach(field => {
+            const element = document.getElementById(field);
+            if (!element.value.trim()) {
+                element.classList.add('form-error');
+                isValid = false;
+            } else {
+                element.classList.remove('form-error');
+            }
+        });
+        
+        // التحقق من الحقول المشروطة فقط إذا كانت ظاهرة ومفعلة
+        if (AdmissionSystem.applicantType === 'bridging') {
+            const bridgingFields = ['bridgingUniversity', 'diplomaSpecialty', 'diplomaGPA'];
+            bridgingFields.forEach(field => {
+                const element = document.getElementById(field);
+                if (element && !element.disabled && !element.value.trim()) {
+                    element.classList.add('form-error');
+                    isValid = false;
+                }
+            });
+        } else if (AdmissionSystem.applicantType === 'transfer') {
+            const transferFields = ['transferUniversity', 'transferHours', 'transferGPA'];
+            transferFields.forEach(field => {
+                const element = document.getElementById(field);
+                if (element && !element.disabled && !element.value.trim()) {
+                    element.classList.add('form-error');
+                    isValid = false;
+                }
+            });
+        } else if (AdmissionSystem.applicantType === 'postgraduate') {
+            const postgraduateFields = ['pgUniversity', 'pgSpecialty', 'pgGPA'];
+            postgraduateFields.forEach(field => {
+                const element = document.getElementById(field);
+                if (element && !element.disabled && !element.value.trim()) {
+                    element.classList.add('form-error');
+                    isValid = false;
+                }
+            });
+        }
+        
+        if (!isValid) {
+            showError('يرجى ملء جميع الحقول الإلزامية');
+        }
+        
+        return isValid;
+    }
+    
+    function validateStep2() {
+        // التحقق من درجات النسبة الموزونة
+        const highschool = document.getElementById('highschoolGPA');
+        const aptitude = document.getElementById('aptitudeScore');
+        const achievement = document.getElementById('achievementScore');
+        
+        let isValid = true;
+        
+        [highschool, aptitude, achievement].forEach(field => {
+            const value = parseFloat(field.value);
+            if (!value || value < 0 || value > 100) {
+                field.classList.add('form-error');
+                isValid = false;
+            } else {
+                field.classList.remove('form-error');
+            }
+        });
+        
+        if (!isValid) {
+            showError('يرجى إدخال درجات صحيحة بين 0 و 100');
+            return false;
+        }
+        
+        // حساب النسبة الموزونة
+        AdmissionSystem.calculateWeightedAverage();
+        
+        // التحقق من النسبة الدنيا
+        if (AdmissionSystem.weightedAverage < 50) {
+            showError('النسبة الموزونة أقل من 50% - غير مؤهل للتقديم');
+            return false;
+        }
+        
+        return true;
+    }
+    
+    function validateStep3() {
+        if (!AdmissionSystem.selectedProgram) {
+            showError('يرجى اختيار تخصص من القائمة');
+            return false;
+        }
+        return true;
+    }
+    
+    function validateStep4() {
+        const termsChecked = document.getElementById('termsAgreement').checked;
+        if (!termsChecked) {
+            showError('يرجى الموافقة على الشروط والأحكام للمتابعة');
+            return false;
+        }
+        return true;
+    }
+    
+    // ============ تحميل وعرض البرامج ============
+    AdmissionSystem.loadRecommendedPrograms = function(collegeId) {
+        const container = document.getElementById('programsContainer');
+        const eligibilityDiv = document.getElementById('eligibilityMessage');
+        container.innerHTML = '';
+        
+        const college = this.knowledgeBase.colleges.find(c => c.id == collegeId);
+        if (!college) return;
+        
+        const weightedAvg = this.weightedAverage || 0;
+        const gender = this.gender;
+        const applicantType = this.applicantType;
+        
+        let hasEligiblePrograms = false;
+        let maxMinGPA = 0;
+        
+        college.programs.forEach(program => {
+            // تحديد الحد الأدنى بناءً على الجنس
+            const minRequired = gender === 'أنثى' ? program.minGPAFemale || program.minGPA : program.minGPA;
+            
+            // التحقق من الأهلية
+            const isEligible = weightedAvg >= minRequired;
+            const genderMatch = program.gender === 'both' || program.gender === gender;
+            const typeMatch = program.availableFor.includes(applicantType);
+            
+            if (isEligible && genderMatch && typeMatch) {
+                hasEligiblePrograms = true;
+                if (minRequired > maxMinGPA) maxMinGPA = minRequired;
+            }
+            
+            const card = document.createElement('div');
+            card.className = 'program-card';
+            card.style.cursor = isEligible && genderMatch && typeMatch ? 'pointer' : 'not-allowed';
+            card.style.opacity = isEligible && genderMatch && typeMatch ? '1' : '0.6';
+            
+            // تحديد لون الحد الأدنى بناءً على الأهلية
+            const minGPAColor = isEligible ? 'var(--success-color)' : 'var(--error-color)';
+            
+            card.innerHTML = `
+                <div class="program-header">
+                    <div class="program-title">${program.name}</div>
+                    <div style="background: ${minGPAColor}; color: white; padding: 5px 10px; border-radius: 20px; font-size: 14px;">
+                        ${minRequired}% ${gender === 'أنثى' ? '(طالبات)' : '(طلاب)'}
+                    </div>
+                </div>
+                <div class="program-details">
+                    <span><i class="fas fa-clock"></i> ${program.duration} سنوات</span>
+                    <span><i class="fas fa-book"></i> ${program.credits} ساعة</span>
+                    <span><i class="fas fa-user-graduate"></i> ${program.gender === 'both' ? 'للجنسين' : 'للذكور فقط'}</span>
+                    <span><i class="fas fa-graduation-cap"></i> ${program.requiredScore}</span>
+                </div>
+                ${!isEligible ? `<div style="color: var(--error-color); font-size: 14px; margin-top: 10px;">
+                    <i class="fas fa-exclamation-triangle"></i> غير مؤهل - نسبتك (${weightedAvg}%) أقل من المطلوب (${minRequired}%)
+                </div>` : ''}
+                ${!genderMatch ? `<div style="color: var(--error-color); font-size: 14px; margin-top: 10px;">
+                    <i class="fas fa-exclamation-triangle"></i> هذا التخصص غير متاح لجنسك
+                </div>` : ''}
+                ${!typeMatch ? `<div style="color: var(--error-color); font-size: 14px; margin-top: 10px;">
+                    <i class="fas fa-exclamation-triangle"></i> غير متاح لنوع المتقدم (${getApplicantTypeText(applicantType)})
+                </div>` : ''}
+            `;
+            
+            if (isEligible && genderMatch && typeMatch) {
+                card.onclick = function(e) { 
+                    selectProgram(program, college, e); 
+                };
+            }
+            
+            container.appendChild(card);
+        });
+        
+        // عرض رسالة الأهلية
+        eligibilityDiv.style.display = 'block';
+        if (hasEligiblePrograms) {
+            eligibilityDiv.className = 'form-section eligible';
+            eligibilityDiv.innerHTML = `
+                <div class="section-title">
+                    <i class="fas fa-check-circle"></i>
+                    <span>الأهلية للتخصصات</span>
+                </div>
+                <p>✅ نسبتك الموزونة (${weightedAvg}%) تؤهلك لعدد من التخصصات في هذه الكلية.</p>
+                <p>انقر على التخصص المطلوب لاختياره.</p>
+            `;
+        } else {
+            eligibilityDiv.className = 'form-section not-eligible';
+            eligibilityDiv.innerHTML = `
+                <div class="section-title">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    <span>عدم الأهلية</span>
+                </div>
+                <p>❌ نسبتك الموزونة (${weightedAvg}%) لا تؤهلك لأي تخصص في هذه الكلية.</p>
+                <p>الحد الأدنى المطلوب: ${maxMinGPA}% - يرجى اختيار كلية أخرى أو تحسين نسبتك.</p>
+                <div style="margin-top: 15px;">
+                    <button class="btn btn-secondary" onclick="prevStep()">
+                        <i class="fas fa-arrow-right"></i> الرجوع وتعديل الدرجات
+                    </button>
+                </div>
+            `;
+        }
+    };
+    
+    function selectProgram(program, college, event) {
+        AdmissionSystem.selectedProgram = program;
+        AdmissionSystem.selectedCollege = college;
+        
+        // إزالة التحديد السابق
+        document.querySelectorAll('#programsContainer .program-card').forEach(card => {
+            card.classList.remove('selected');
+        });
+        
+        // إضافة التحديد الحالي
+        const selectedCard = event.currentTarget;
+        selectedCard.classList.add('selected');
+        
+        // عرض رسالة تأكيد
+        showToast(`تم اختيار ${program.name}`, 'success');
+    }
+    
+    // ============ مراجعة البيانات ============
+    function updateReviewData() {
+        const container = document.getElementById('reviewData');
+        const formData = collectFormData();
+        
+        // تحديد الحد الأدنى المناسب للتخصص
+        const minRequired = AdmissionSystem.gender === 'أنثى' ? 
+            (AdmissionSystem.selectedProgram.minGPAFemale || AdmissionSystem.selectedProgram.minGPA) : 
+            AdmissionSystem.selectedProgram.minGPA;
+        
+        const isEligible = AdmissionSystem.weightedAverage >= minRequired;
+        
+        container.innerHTML = `
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px;">
+                <div>
+                    <h4 style="color: var(--royal-blue); margin-bottom: 10px;">البيانات الشخصية</h4>
+                    <p><strong>الاسم:</strong> ${formData.personal.fullName}</p>
+                    <p><strong>رقم الهوية:</strong> ${formData.personal.idNumber}</p>
+                    <p><strong>الجنس:</strong> ${formData.personal.gender}</p>
+                    <p><strong>الجنسية:</strong> ${formData.personal.nationality}</p>
+                    <p><strong>نوع المتقدم:</strong> ${getApplicantTypeText(formData.personal.applicantType)}</p>
+                    <p><strong>الفرع المطلوب:</strong> ${formData.personal.branch}</p>
+                </div>
+                <div>
+                    <h4 style="color: var(--royal-blue); margin-bottom: 10px;">البيات الأكاديمية</h4>
+                    <p><strong>المؤهل:</strong> ${formData.academic.qualification}</p>
+                    <p><strong>التخصص:</strong> ${formData.academic.specialization}</p>
+                    <p><strong>معدل الثانوية:</strong> ${formData.academic.highschoolGPA}%</p>
+                    <p><strong>القدرات:</strong> ${formData.academic.aptitudeScore}%</p>
+                    <p><strong>التحصيلي:</strong> ${formData.academic.achievementScore}%</p>
+                    <p><strong>النسبة الموزونة:</strong> <span style="font-weight: bold; color: ${isEligible ? 'var(--success-color)' : 'var(--error-color)'}">${AdmissionSystem.weightedAverage}%</span></p>
+                </div>
+                <div>
+                    <h4 style="color: var(--royal-blue); margin-bottom: 10px;">البرنامج المختار</h4>
+                    <p><strong>الكلية:</strong> ${formData.program.college}</p>
+                    <p><strong>التخصص:</strong> ${formData.program.program}</p>
+                    <p><strong>الحد الأدنى المطلوب:</strong> ${minRequired}%</p>
+                    <p><strong>حالة الأهلية:</strong> 
+                        <span style="color: ${isEligible ? 'var(--success-color)' : 'var(--error-color)'}; font-weight: bold;">
+                            ${isEligible ? '✅ مؤهل' : '❌ غير مؤهل'}
+                        </span>
+                    </p>
+                    <p><strong>نوع الدراسة:</strong> ${formData.program.studyType}</p>
+                    <p><strong>نظام الدراسة:</strong> ${formData.academic.studySystem}</p>
+                </div>
+            </div>
+        `;
+    }
+    
+    function collectFormData() {
+        return {
+            personal: {
+                fullName: document.getElementById('fullName').value,
+                idNumber: document.getElementById('idNumber').value,
+                gender: document.getElementById('gender').value,
+                nationality: document.getElementById('nationality').value,
+                applicantType: document.getElementById('applicantType').value,
+                email: document.getElementById('email').value,
+                phone: document.getElementById('phone').value,
+                branch: document.getElementById('branch').value
+            },
+            academic: {
+                qualification: document.getElementById('qualificationType').value,
+                specialization: document.getElementById('specialization').value,
+                highschoolGPA: document.getElementById('highschoolGPA').value,
+                aptitudeScore: document.getElementById('aptitudeScore').value,
+                achievementScore: document.getElementById('achievementScore').value,
+                studySystem: document.getElementById('studySystem').value
+            },
+            program: {
+                college: AdmissionSystem.selectedCollege?.name || 'لم يتم الاختيار',
+                program: AdmissionSystem.selectedProgram?.name || 'لم يتم الاختيار',
+                studyType: document.getElementById('studyType').value
+            },
+            conditional: {
+                bridgingUniversity: document.getElementById('bridgingUniversity')?.value || '',
+                diplomaSpecialty: document.getElementById('diplomaSpecialty')?.value || '',
+                diplomaGPA: document.getElementById('diplomaGPA')?.value || '',
+                transferUniversity: document.getElementById('transferUniversity')?.value || '',
+                transferHours: document.getElementById('transferHours')?.value || '',
+                transferGPA: document.getElementById('transferGPA')?.value || '',
+                pgUniversity: document.getElementById('pgUniversity')?.value || '',
+                pgSpecialty: document.getElementById('pgSpecialty')?.value || '',
+                pgGPA: document.getElementById('pgGPA')?.value || ''
+            }
+        };
+    }
+    
+    function getApplicantTypeText(type) {
+        const types = {
+            'new': 'خريج ثانوي جديد',
+            'bridging': 'برنامج التجسير',
+            'transfer': 'منقول من جامعة أخرى',
+            'postgraduate': 'دراسات عليا'
+        };
+        return types[type] || type;
+    }
+    
+    // ============ توليد رقم المرجع ============
+    function generateApplicationNumber() {
+        const timestamp = Date.now();
+        const random = Math.floor(Math.random() * 10000);
+        const year = new Date().getFullYear();
+        return `AOU-${year}-${random.toString().padStart(6, '0')}`;
+    }
+    
+    // ============ إعداد بيانات نموذج Web3Forms ============
+    function prepareWeb3FormData() {
+        const form = document.getElementById('web3form');
+        const formData = collectFormData();
+        
+        const minRequired = AdmissionSystem.gender === 'أنثى' ? 
+            (AdmissionSystem.selectedProgram.minGPAFemale || AdmissionSystem.selectedProgram.minGPA) : 
+            AdmissionSystem.selectedProgram.minGPA;
+        
+        const isEligible = AdmissionSystem.weightedAverage >= minRequired;
+        
+        // البيانات الأساسية
+        form.elements.application_number.value = AdmissionSystem.applicationNumber;
+        form.elements.full_name.value = formData.personal.fullName;
+        form.elements.id_number.value = formData.personal.idNumber;
+        form.elements.gender.value = formData.personal.gender;
+        form.elements.nationality.value = formData.personal.nationality;
+        form.elements.applicant_type.value = getApplicantTypeText(formData.personal.applicantType);
+        form.elements.email.value = formData.personal.email;
+        form.elements.phone.value = formData.personal.phone;
+        form.elements.branch.value = formData.personal.branch;
+        form.elements.qualification.value = formData.academic.qualification;
+        form.elements.specialization.value = formData.academic.specialization;
+        form.elements.highschool_gpa.value = formData.academic.highschoolGPA;
+        form.elements.aptitude_score.value = formData.academic.aptitudeScore;
+        form.elements.achievement_score.value = formData.academic.achievementScore;
+        form.elements.weighted_average.value = AdmissionSystem.weightedAverage;
+        form.elements.study_type.value = formData.program.studyType;
+        form.elements.study_system.value = formData.academic.studySystem;
+        form.elements.college.value = formData.program.college;
+        form.elements.selected_program.value = formData.program.program;
+        form.elements.program_min_gpa.value = minRequired;
+        form.elements.eligibility_status.value = isEligible ? 'مؤهل' : 'غير مؤهل';
+        form.elements.submission_time.value = new Date().toLocaleString('ar-SA');
+        
+        // نقل بيانات الحقول المشروطة فقط إذا كانت مفعلة (غير معطلة)
+        const applicantType = formData.personal.applicantType;
+        
+        // تنظيف القيم السابقة لضمان عدم إرسال بيانات خاطئة
+        form.elements.bridging_university.value = (applicantType === 'bridging') ? formData.conditional.bridgingUniversity : '';
+        form.elements.diploma_specialty.value = (applicantType === 'bridging') ? formData.conditional.diplomaSpecialty : '';
+        form.elements.diploma_gpa.value = (applicantType === 'bridging') ? formData.conditional.diplomaGPA : '';
+        
+        form.elements.transfer_university.value = (applicantType === 'transfer') ? formData.conditional.transferUniversity : '';
+        form.elements.transfer_hours.value = (applicantType === 'transfer') ? formData.conditional.transferHours : '';
+        form.elements.transfer_gpa.value = (applicantType === 'transfer') ? formData.conditional.transferGPA : '';
+        
+        form.elements.pg_university.value = (applicantType === 'postgraduate') ? formData.conditional.pgUniversity : '';
+        form.elements.pg_specialty.value = (applicantType === 'postgraduate') ? formData.conditional.pgSpecialty : '';
+        form.elements.pg_gpa.value = (applicantType === 'postgraduate') ? formData.conditional.pgGPA : '';
+    }
+    
+    // ============ الإرسال المباشر ============
+    async function submitApplicationDirectly() {
+        if (!validateStep4()) {
+            return;
+        }
+        
+        // توليد رقم طلب
+        AdmissionSystem.applicationNumber = generateApplicationNumber();
+        
+        // تحضير البيانات للإرسال
+        prepareWeb3FormData();
+        
+        // إرسال البيانات
+        await submitApplication();
+    }
+    
+    async function submitApplication() {
+        const submitBtn = document.getElementById('submitBtn');
+        const originalText = submitBtn.innerHTML;
+        submitBtn.innerHTML = '<span class="loading"></span> جاري الإرسال...';
+        submitBtn.disabled = true;
+        
+        try {
+            const form = document.getElementById('web3form');
+            const formData = new FormData(form);
+            
+            // التحقق من البيانات المرسلة
+            console.log('بيانات الإرسال:');
+            for (let [key, value] of formData.entries()) {
+                console.log(`${key}: ${value}`);
+            }
+            
+            const response = await fetch('https://api.web3forms.com/submit', {
+                method: 'POST',
+                body: formData
+            });
+            
+            const result = await response.json();
+            console.log('نتيجة الإرسال:', result);
+            
+            if (result.success) {
+                // حفظ في localStorage
+                saveToLocalStorage();
+                
+                // عرض شاشة النجاح
+                showSuccessScreen();
+                showToast('تم إرسال طلبك بنجاح!', 'success');
+            } else {
+                // في حالة فشل الإرسال، نحفظ الطلب محلياً
+                saveToLocalStorage();
+                showSuccessScreen();
+                showToast('تم حفظ الطلب محلياً، يرجى التواصل مع الدعم.', 'warning');
+            }
+        } catch (error) {
+            console.error('خطأ في الإرسال:', error);
+            // في حالة حدوث خطأ في الشبكة، نحفظ الطلب محلياً
+            saveToLocalStorage();
+            showSuccessScreen();
+            showToast('تم حفظ الطلب محلياً، يرجى التواصل مع الدعم.', 'warning');
+        } finally {
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = originalText;
+        }
+    }
+    
+    function saveToLocalStorage() {
+        const formData = collectFormData();
+        const application = {
+            id: AdmissionSystem.applicationNumber,
+            timestamp: new Date().toISOString(),
+            data: formData,
+            weightedAverage: AdmissionSystem.weightedAverage,
+            selectedProgram: AdmissionSystem.selectedProgram,
+            selectedCollege: AdmissionSystem.selectedCollege
+        };
+        
+        let applications = JSON.parse(localStorage.getItem('aouApplications') || '[]');
+        applications.push(application);
+        localStorage.setItem('aouApplications', JSON.stringify(applications));
+    }
+    
+    function showSuccessScreen() {
+        // إخفاء الخطوة الرابعة وإظهار شاشة النجاح
+        document.getElementById('step4').classList.remove('active');
+        document.getElementById('successScreen').style.display = 'block';
+        
+        // تحديث معلومات شاشة النجاح
+        document.getElementById('appReferenceNumber').textContent = AdmissionSystem.applicationNumber;
+        document.getElementById('successEmail').textContent = document.getElementById('email').value;
+        document.getElementById('successPhone').textContent = document.getElementById('phone').value;
+        
+        // إخفاء stepper
+        document.querySelector('.stepper-container').style.display = 'none';
+        
+        // تحديث توقيع الخطوة الرابعة كمكتملة
+        document.querySelector('.step[data-step="4"]').classList.add('completed');
+    }
+    
+    function printApplication() {
+        const printContent = `
+            <html dir="rtl">
+            <head>
+                <title>طباعة طلب القبول - ${AdmissionSystem.applicationNumber}</title>
+                <style>
+                    body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; padding: 20px; }
+                    .header { text-align: center; margin-bottom: 30px; }
+                    .reference { background: #4169E1; color: white; padding: 10px; text-align: center; font-size: 20px; margin-bottom: 20px; }
+                    .section { margin-bottom: 20px; padding: 15px; border: 1px solid #ddd; border-radius: 5px; }
+                    .section h3 { color: #4169E1; margin-bottom: 10px; }
+                </style>
+            </head>
+            <body>
+                <div class="header">
+                    <h1>طلب القبول الإلكتروني - الجامعة العربية المفتوحة</h1>
+                    <p>العام الجامعي 1446هـ (2025م)</p>
+                </div>
+                <div class="reference">
+                    رقم المرجع: ${AdmissionSystem.applicationNumber}
+                </div>
+                <div class="section">
+                    <h3>البيانات الشخصية</h3>
+                    <p><strong>الاسم:</strong> ${document.getElementById('fullName').value}</p>
+                    <p><strong>رقم الهوية:</strong> ${document.getElementById('idNumber').value}</p>
+                    <p><strong>البريد الإلكتروني:</strong> ${document.getElementById('email').value}</p>
+                    <p><strong>رقم الجوال:</strong> ${document.getElementById('phone').value}</p>
+                    <p><strong>الفرع المطلوب:</strong> ${document.getElementById('branch').value}</p>
+                </div>
+                <div class="section">
+                    <h3>البرنامج المختار</h3>
+                    <p><strong>الكلية:</strong> ${AdmissionSystem.selectedCollege?.name}</p>
+                    <p><strong>التخصص:</strong> ${AdmissionSystem.selectedProgram?.name}</p>
+                    <p><strong>النسبة الموزونة:</strong> ${AdmissionSystem.weightedAverage}%</p>
+                </div>
+                <div class="section">
+                    <h3>ملاحظات</h3>
+                    <p>تم تقديم الطلب بنجاح. سيتم التواصل بك من قبل موظف الشؤون الإدارية والمالية لتأكيد القبول ودفع الرسوم واستكمال بقية الإجراءات.</p>
+                </div>
+                <div style="margin-top: 30px; text-align: center; font-size: 12px; color: #666;">
+                    <p>تاريخ الطباعة: ${new Date().toLocaleString('ar-SA')}</p>
+                    <p>نظام القبول الإلكتروني - الجامعة العربية المفتوحة</p>
+                </div>
+            </body>
+            </html>
+        `;
+        
+        const printWindow = window.open('', '_blank');
+        printWindow.document.write(printContent);
+        printWindow.document.close();
+        printWindow.print();
+    }
+    
+    // ============ وظائف مساعدة ============
+    function showError(message) {
+        const errorElement = document.getElementById('errorMessage');
+        document.getElementById('errorText').textContent = message;
+        errorElement.style.display = 'block';
+        
+        setTimeout(() => {
+            errorElement.style.display = 'none';
+        }, 5000);
+    }
+    
+    function showToast(message, type = 'success') {
+        const toast = document.getElementById('toastNotification');
+        const toastMessage = document.getElementById('toastMessage');
+        
+        toastMessage.textContent = message;
+        toast.className = `toast-notification ${type}`;
+        toast.classList.add('show');
+        
+        setTimeout(() => {
+            toast.classList.remove('show');
+        }, 3000);
+    }
+    
+    // ============ إدارة التبويبات ============
+    function showSection(sectionId) {
+        // إخفاء جميع الأقسام
+        document.querySelectorAll('.section-container').forEach(section => {
+            section.style.display = 'none';
+        });
+        
+        // إخفاء تبويب التقديم إذا كان نشطاً
+        if (sectionId !== 'admission') {
+            document.getElementById('admission').style.display = 'none';
+        }
+        
+        // إظهار القسم المطلوب
+        document.getElementById(sectionId).style.display = 'block';
+        
+        // تحديث التبويبات النشطة
+        document.querySelectorAll('.tab').forEach(tab => {
+            tab.classList.remove('active');
+        });
+        
+        // إضافة النشاط للتبويب المناسب
+        const activeTab = Array.from(document.querySelectorAll('.tab')).find(tab => 
+            tab.getAttribute('onclick')?.includes(sectionId)
+        );
+        if (activeTab) {
+            activeTab.classList.add('active');
+        }
+        
+        // إعادة تعيين نظام الخطوات إذا كان قسم التقديم
+        if (sectionId === 'admission') {
+            // إعادة تعيين الخطوات
+            AdmissionSystem.currentStep = 1;
+            document.querySelectorAll('.step').forEach((step, index) => {
+                step.classList.remove('active', 'completed');
+                if (index === 0) step.classList.add('active');
+            });
+            
+            // إظهار الخطوة الأولى
+            document.querySelectorAll('.step-content').forEach((content, index) => {
+                content.classList.remove('active');
+                if (index === 0) content.classList.add('active');
+            });
+            
+            // إظهار stepper
+            document.querySelector('.stepper-container').style.display = 'block';
+        }
+    }
+    
+    // تهيئة النظام عند التحميل
+    window.addEventListener('load', function() {
+        showSection('admission');
+    });
+    </script>
+</body>
+                      </html>
